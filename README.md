@@ -40,4 +40,5 @@ $ python3 test.py
 - [ ] Add description about structure of `Point` and `EllipticCurve`.
 
 # Reference
-- https://www.math.brown.edu/~jhs/Presentations/WyomingEllipticCurve.pdf
+- [ECC](https://www.math.brown.edu/~jhs/Presentations/WyomingEllipticCurve.pdf)
+- [Montgomery ladder](https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication)

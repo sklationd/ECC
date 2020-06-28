@@ -4,6 +4,36 @@ from __future__ import annotations
 def modinv(x, p):
     return pow(x, p - 2, p)
 
+# Convert decimal number n to binary number(string)
+def dec2bin(n):
+    return bin(n)[2:]
+
+# Montgomery ladder algorithm
+# The Montgomery ladder approach computes the point multiplication in a fixed amount of time.
+# This can be beneficial when timing or power consumption measurements are exposed to an attacker
+# performing a side-channel attack. The algorithm uses the same representation as from double-and-add.
+def mont_mul(scalar_bin, point:Point):
+    curve = point.getCurve()
+
+    # '10010' -> [1,0,0,1,0]
+    b = [int(ni) for ni in scalar_bin] 
+    
+    # identity point
+    R0 = Point(curve, inf=True)
+
+    # input point
+    R1 = Point(curve, x=point.getX(), y=point.getY())
+
+    for d_i in b:
+        if d_i == 0:
+            R1 = R0 + R1
+            R0 = 2 * R0 
+        else:
+            R0 = R0 + R1
+            R1 = 2 * R1
+    
+    return R0
+
 
 class EllipticCurve(object):
     def __init__(self, p, A, B):
@@ -13,7 +43,8 @@ class EllipticCurve(object):
         self.A = A
         self.B = B
 
-        self.knownPoints = set([])
+        # TODO : Check vulnerability of ECC
+
 
         # Calculate a discriminant
         self.d = self.calD()
@@ -146,13 +177,19 @@ class Point(object):
 
     def __mul__(self, scalar: int):
 
-        # TODO: Implement double and add method
-
         if type(scalar) == int:
-            result = self
-            for _ in range(scalar - 1):
-                result = result + self
-            return result
+            if self.isInf():
+                return self
+
+            if scalar == 2:
+                return self + self
+
+            else:
+                # get binary expression of scalar with string
+                scalar_bin = dec2bin(scalar)    
+
+                # multiplication with montgomery ladder algorithm 
+                return mont_mul(scalar_bin, self)
 
         else:
             raise TypeError(
@@ -168,6 +205,9 @@ class Point(object):
 
     def getY(self):
         return self.y
+
+    def getCurve(self):
+        return self.curve
 
     def isInf(self):
         return self.inf

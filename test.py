@@ -22,6 +22,10 @@ A4 = -1
 B4 = 0
 
 
+# valid : Secp256K1(It is exactly bitcoin ECC)
+p5 = 115792089237316195423570985008687907853269984665640564039457584007908834671663
+A5 = 0
+B5 = 7
 ##########    Build     ##########
 
 # Make valid ECC
@@ -46,6 +50,12 @@ try:
     invalid_p_Curve = EllipticCurve(p4, A4, B4)
 except Exception as ex:
     print("[Error]: An error occured:", ex)
+
+# Make Secp256K1 ECC
+try:
+    bitcoinCurve = EllipticCurve(p5, A5, B5)
+except Exception as ex:
+    print("[Error]: An error occured: ", ex)
 
 
 ##########  Test case  ###########
@@ -80,3 +90,20 @@ try:
     print(P + P_)
 except Exception as ex:
     print("[Error]: An error occured: ", ex)
+
+
+# Test big prime ecc(Secp256K1)
+
+Gx = 55066263022277343669578718895168534326250603453777594175500187360389116729240
+Gy = 32670510020758816978083085130507043184471273380659243275938904335757337482424
+
+P = Point(bitcoinCurve, Gx, Gy)
+
+# (89565891926547004231252920425935692360644145829622209833684329913297188986597,
+#  12158399299693830322967808612713398636155367887041628176798871954788371653930)
+print(2*P)
+
+# order of Secp256K1, result of below expression should be identity
+order = 115792089237316195423570985008687907852837564279074904382605163141518161494337 # IDENTITY
+print(order*P)
+
