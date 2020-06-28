@@ -1,13 +1,13 @@
 # ECC
 Implementation of Elliptic Curve on integer field with python3
 
-# Environment
+## Environment
 ```console
 $ python3 --version
 Python 3.7.5
 ```
 
-# Usage(Test)
+## Usage(Test)
 ```console
 $ python3 test.py
 ```
@@ -33,12 +33,18 @@ $ python3 test.py
     [Error]: An error occured:  Can not add two different curve's point
   ```
 
-# TODO
+## TODO
 - [ ] Implement scalar multiplication based on double-and-add method(for efficiency).
 - [ ] Implement prime checker (This may not be necessary).
 - [ ] Build a p2p key exchange model of [Diffie Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) based on ECC.
-- [ ] Add description about structure of `Point` and `EllipticCurve`.
+- [ ] Add a description about structure of `Point` and `EllipticCurve`.
+- [ ] Add TC about big prime and big `n` in `n`*`P`
 
+<<<<<<< HEAD
 # Reference
 - [ECC](https://www.math.brown.edu/~jhs/Presentations/WyomingEllipticCurve.pdf)
 - [Montgomery ladder](https://en.wikipedia.org/wiki/Elliptic_curve_point_multiplication)
+=======
+## Reference
+- https://www.math.brown.edu/~jhs/Presentations/WyomingEllipticCurve.pdf
+>>>>>>> cc56b63a79e2f14d21ee1d843131f1f1d43d2286
